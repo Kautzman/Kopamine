@@ -55,7 +55,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Dopamine.ico</ApplicationIcon>
+    <ApplicationIcon>Kopamine.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
@@ -722,6 +722,8 @@
     <Content Include="Icons\Generic.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Icons\Kopamine.ico" />
+    <Resource Include="Icons\Kopamine.png" />
     <Content Include="Icons\Legacy tray.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -759,6 +761,7 @@
     <Content Include="Icons\Zpl.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Kopamine.ico" />
     <Content Include="Languages\BG.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

@@ -31,7 +31,7 @@
                 <!-- Sub menu button -->
                 <controls:DropDownButton DockPanel.Dock="Right" Style="{StaticResource WindowDropDownButton}" 
                                  VerticalAlignment="Top" Width="48" Height="50" ToolTip="{DynamicResource Language_Open_Menu}">
-                    <fwc:SegoeIcon Text="&#xE700;" FontSize="16"
+                    <fwc:SegoeIcon Text="&#xE713;" FontSize="16"
                            HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     <controls:DropDownButton.Menu>
                         <ContextMenu>

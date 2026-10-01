@@ -49,79 +49,71 @@
     <Style x:Key="ListBoxPlaylistTracksItem" TargetType="{x:Type ListBoxItem}">
         <Setter Property="ContextMenu" Value="{StaticResource ListBoxPlaylistTracksContextMenu}"/>
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
-        <Setter Property="Margin" Value="0,0,0,2" />
+        <Setter Property="Margin" Value="0,0,0,0" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="Foreground" Value="{DynamicResource Brush_PrimaryText}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
                     <Grid>
-                        <Border x:Name="MouseHoverHelper" Height="46" Background="{DynamicResource Brush_ItemHovered}" Opacity="0"/>
-                        <Border Height="46" 
+                        <Border x:Name="MouseHoverHelper" Height="32" Background="{DynamicResource Brush_ItemHovered}" Opacity="0"/>
+                        <Border Height="32" 
                                 Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ScrollContentPresenter}}}"
                                 Background="{TemplateBinding Background}">
-                            <Border.ToolTip>
+                            <!--<Border.ToolTip>
                                 <ToolTip>
                                     <StackPanel>
                                         <TextBlock Text="{Binding TrackTitle}" FontWeight="Bold"/>
                                         <TextBlock Text="{Binding ArtistName}"/>
                                     </StackPanel>
                                 </ToolTip>
-                            </Border.ToolTip>
-                            <DockPanel Margin="10,0,10,0">
-                                <Border DockPanel.Dock="Left" MinWidth="20" Height="40">
-                                    <TextBlock 
-                                        Text="{Binding FormattedTrackNumber}" 
-                                        HorizontalAlignment="Center" 
-                                        VerticalAlignment="Center"
-                                        Foreground="{DynamicResource Brush_SecondaryText}"
-                                        FontSize="13"/>
-                                </Border>
-                                <StackPanel VerticalAlignment="Center" Height="40">
-                                    <DockPanel Height="20">
-                                        <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
-                                            <Label Style="{DynamicResource PlaybackIndicator}"
-                                                   Visibility="{Binding IsPlaying, Converter={StaticResource BooleanToCollapsedConverter}, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
-                                                   Foreground="{DynamicResource Brush_Accent}" 
-                                                   Margin="0,0,10,0" 
-                                                   VerticalAlignment="Center"/>
-                                            <TextBlock
-                                                Text="{Binding Duration}" 
-                                                TextAlignment="Right"
-                                                FontSize="13" 
-                                                VerticalAlignment="Center"
-                                                Margin="0,0,2,0"/>
-                                        </StackPanel>
+                            </Border.ToolTip>-->
+                            <Grid>
+                                <DockPanel Margin="10,0,10,0">
+                                    <Border DockPanel.Dock="Left" MinWidth="20" Height="32">
+                                        <Label Style="{DynamicResource PlaybackIndicator}"
+                                                       Visibility="{Binding IsPlaying, Converter={StaticResource BooleanToCollapsedConverter}, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
+                                                       Foreground="{DynamicResource Brush_Accent}" 
+                                                       Margin="0,0,0,0" 
+                                                       VerticalAlignment="Center"/>
+                                    </Border>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="3*" MinWidth="50" MaxWidth="550"/>
+                                            <ColumnDefinition Width="80" MinWidth="50" />
+                                            <ColumnDefinition Width="1*" MinWidth="50" />
+                                        </Grid.ColumnDefinitions>
                                         <TextBlock Text="{Binding TrackTitle}"
-                                               VerticalAlignment="Center"
-                                               HorizontalAlignment="Stretch" 
-                                               TextTrimming="CharacterEllipsis"
-                                               Margin="10,0,10,0"
-                                               FontSize="13"/>
-                                    </DockPanel>
-                                    <DockPanel Height="20">
-                                        <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" Margin="0,0,2,0" >
-                                            <pc:RatingButton 
-                                            VerticalAlignment="Center" 
-                                            Visibility="{Binding DataContext.EnableRating,UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource BooleanToCollapsedConverter}}"
-                                            Rating="{Binding Rating, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-                                            <pc:LoveButton 
-                                            Margin="10,0,0,0"
-                                            VerticalAlignment="Center" 
-                                            SelectedForeground="{DynamicResource Brush_Accent}"
-                                            Visibility="{Binding DataContext.EnableLove,UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},Converter={StaticResource BooleanToCollapsedConverter}}"
-                                            Love="{Binding Love, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-                                        </StackPanel>
+                                                   Grid.Column="0"
+                                                   VerticalAlignment="Center"
+                                                   HorizontalAlignment="Stretch" 
+                                                   TextTrimming="CharacterEllipsis"
+                                                   Height="32"
+                                                   Padding="0, 5, 0, 0"
+                                                   Margin="5,0,0,0"
+                                                   FontSize="13"/>
+                                        <TextBlock Text="{Binding Duration}" 
+                                                   Height="32"
+                                                   Padding="0, 5, 0, 0"
+                                                   Grid.Column="1"
+                                                   TextAlignment="Left"
+                                                   FontSize="13" 
+                                                   VerticalAlignment="Center"
+                                                   Margin="0,0,2,0"
+                                                   Foreground="{DynamicResource Brush_SecondaryText}"/>
                                         <TextBlock Text="{Binding ArtistName}"
-                                               VerticalAlignment="Center"
-                                               HorizontalAlignment="Stretch" 
-                                               TextTrimming="CharacterEllipsis"
-                                               Margin="10,0,10,0"
-                                               FontSize="11"
-                                               Foreground="{DynamicResource Brush_SecondaryText}"/>
-                                    </DockPanel>
-                                </StackPanel>
-                            </DockPanel>
+                                                   Height="32"
+                                                   Padding="0, 5, 0, 0"
+                                                   Grid.Column="2"
+                                                   VerticalAlignment="Center"
+                                                   HorizontalAlignment="Stretch" 
+                                                   TextTrimming="CharacterEllipsis"
+                                                   Margin="10,0,10,0"
+                                                   FontSize="13"/>
+                                    </Grid>
+                                </DockPanel>
+                                <Border BorderBrush="{DynamicResource Brush_ItemSeparator}" BorderThickness="0, 0, 0, 1" />
+                            </Grid>
                         </Border>
                     </Grid>
                     <ControlTemplate.Triggers>
