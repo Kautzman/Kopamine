@@ -1,0 +1,238 @@
+<UserControl x:Class="Dopamine.Views.Common.YouTubeTrim"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:dc="clr-namespace:Digimezzo.Foundation.WPF.Controls;assembly=Digimezzo.Foundation.WPF"
+             xmlns:pc="clr-namespace:Dopamine.Controls"
+             xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
+             mc:Ignorable="d"
+             d:DesignHeight="520" d:DesignWidth="960"
+             prismMvvm:ViewModelLocator.AutoWireViewModel="False">
+
+    <UserControl.Resources>
+        <Style x:Key="FieldLabel" TargetType="{x:Type TextBlock}">
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Margin" Value="0,10,0,4"/>
+            <Setter Property="Foreground" Value="{DynamicResource Brush_PrimaryText}"/>
+        </Style>
+        <Style x:Key="SubtleText" TargetType="{x:Type TextBlock}">
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Foreground" Value="{DynamicResource Brush_SecondaryText}"/>
+        </Style>
+        <Style x:Key="FieldTextBox" TargetType="{x:Type TextBox}" BasedOn="{StaticResource MetroTextBox}">
+            <Setter Property="Padding" Value="4,0"/>
+        </Style>
+        <Style x:Key="TimeTextBox" TargetType="{x:Type TextBox}" BasedOn="{StaticResource MetroTextBox}">
+            <Setter Property="Width" Value="90"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid Margin="20,20,20,0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="30"/>
+            <ColumnDefinition Width="320"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- ===== Left: preview and trim ===== -->
+        <DockPanel Grid.Column="0" IsEnabled="{Binding IsSaving, Converter={StaticResource InvertingBooleanConverter}}">
+
+            <!-- Source video -->
+            <DockPanel DockPanel.Dock="Top" Margin="0,0,0,20">
+                <Grid DockPanel.Dock="Left" Width="128" Height="72" Margin="0,0,15,0">
+                    <Border Background="{DynamicResource Brush_CoverTileBackground}"/>
+                    <Image Source="{Binding ThumbnailUrl, IsAsync=True}" Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality"/>
+                </Grid>
+                <StackPanel VerticalAlignment="Center">
+                    <TextBlock Text="{Binding VideoTitle}" ToolTip="{Binding VideoTitle}" FontSize="15" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource Brush_PrimaryText}"/>
+                    <TextBlock Text="{Binding VideoUploader}" Margin="0,4,0,0" Style="{StaticResource SubtleText}"/>
+                    <Button Margin="0,6,0,0" HorizontalAlignment="Left" Style="{StaticResource TransparentButton}" Command="{Binding OpenVideoCommand}">
+                        <StackPanel Orientation="Horizontal">
+                            <dc:SegoeIcon Text="&#xE8A7;" FontSize="12" Foreground="{DynamicResource Brush_Accent}" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                            <TextBlock Text="{DynamicResource Language_YouTube_Open_Video}" FontSize="12" Foreground="{DynamicResource Brush_Accent}"/>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </DockPanel>
+
+            <!-- Playhead time -->
+            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,10">
+                <TextBlock Text="{Binding PositionText}" FontSize="32" FontWeight="Light" Foreground="{DynamicResource Brush_PrimaryText}"/>
+                <TextBlock Text=" / " FontSize="32" FontWeight="Light" Foreground="{DynamicResource Brush_SecondaryText}"/>
+                <TextBlock Text="{Binding DurationText}" FontSize="32" FontWeight="Light" Foreground="{DynamicResource Brush_SecondaryText}"/>
+            </StackPanel>
+
+            <!-- Timeline -->
+            <pc:TrimRangeSlider DockPanel.Dock="Top" Height="56"
+                                Maximum="{Binding DurationSeconds}"
+                                StartValue="{Binding StartSeconds, Mode=TwoWay}"
+                                EndValue="{Binding EndSeconds, Mode=TwoWay}"
+                                Position="{Binding PositionSeconds, Mode=OneWay}"
+                                MinimumRange="1"
+                                SeekCommand="{Binding SeekCommand}"/>
+            <DockPanel DockPanel.Dock="Top" Margin="7,4,7,0">
+                <TextBlock DockPanel.Dock="Right" Text="{Binding DurationText}" Style="{StaticResource SubtleText}"/>
+                <TextBlock Text="0:00" Style="{StaticResource SubtleText}"/>
+            </DockPanel>
+
+            <!-- Transport -->
+            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,15,0,0">
+                <Button Style="{StaticResource RegularButton}" Command="{Binding PlayFromStartCommand}" VerticalAlignment="Center">
+                    <StackPanel Orientation="Horizontal">
+                        <dc:SegoeIcon Text="&#xE892;" FontSize="12" Foreground="{DynamicResource Brush_RegularButtonText}" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                        <TextBlock Text="{DynamicResource Language_YouTube_Play_From_Start}" Foreground="{DynamicResource Brush_RegularButtonText}"/>
+                    </StackPanel>
+                </Button>
+                <Button Width="56" Height="56" Margin="20,0" Style="{StaticResource TransparentButton}"
+                        HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                        Command="{Binding PlayPauseCommand}">
+                    <Border Width="52" Height="52" CornerRadius="26" Background="{DynamicResource Brush_Accent}">
+                        <Grid>
+                            <dc:SegoeIcon Text="&#xE768;" FontSize="20" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="3,0,0,0"
+                                          Visibility="{Binding IsPlaying, Converter={StaticResource InvertingBooleanToCollapsedConverter}}"/>
+                            <dc:SegoeIcon Text="&#xE769;" FontSize="20" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                          Visibility="{Binding IsPlaying, Converter={StaticResource BooleanToCollapsedConverter}}"/>
+                        </Grid>
+                    </Border>
+                </Button>
+                <Button Style="{StaticResource RegularButton}" Command="{Binding PlayEndingCommand}" VerticalAlignment="Center">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{DynamicResource Language_YouTube_Play_Ending}" Foreground="{DynamicResource Brush_RegularButtonText}"/>
+                        <dc:SegoeIcon Text="&#xE893;" FontSize="12" Foreground="{DynamicResource Brush_RegularButtonText}" VerticalAlignment="Center" Margin="6,0,0,0"/>
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+
+            <!-- Trim values -->
+            <Grid DockPanel.Dock="Top" Margin="0,25,0,0" HorizontalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="40"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="40"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="{DynamicResource Language_YouTube_Trim_Start}" Style="{StaticResource FieldLabel}" HorizontalAlignment="Center"/>
+                    <TextBox Style="{StaticResource TimeTextBox}" Text="{Binding StartText}" PreviewKeyDown="TimeTextBox_PreviewKeyDown"/>
+                    <Button Margin="0,8,0,0" Style="{StaticResource RegularButtonTiny}" Content="{DynamicResource Language_YouTube_Set_Start_Here}" Command="{Binding SetStartToPlayheadCommand}"/>
+                </StackPanel>
+
+                <StackPanel Grid.Column="2">
+                    <TextBlock Text="{DynamicResource Language_YouTube_Trim_End}" Style="{StaticResource FieldLabel}" HorizontalAlignment="Center"/>
+                    <TextBox Style="{StaticResource TimeTextBox}" Text="{Binding EndText}" PreviewKeyDown="TimeTextBox_PreviewKeyDown"/>
+                    <Button Margin="0,8,0,0" Style="{StaticResource RegularButtonTiny}" Content="{DynamicResource Language_YouTube_Set_End_Here}" Command="{Binding SetEndToPlayheadCommand}"/>
+                </StackPanel>
+
+                <StackPanel Grid.Column="4">
+                    <TextBlock Text="{DynamicResource Language_YouTube_Selection}" Style="{StaticResource FieldLabel}" HorizontalAlignment="Center"/>
+                    <TextBlock Text="{Binding SelectionLengthText}" FontSize="14" Height="24" HorizontalAlignment="Center" Padding="0,3,0,0" Foreground="{DynamicResource Brush_Accent}"/>
+                    <Button Margin="0,8,0,0" Style="{StaticResource RegularButtonTiny}" Content="{DynamicResource Language_YouTube_Reset_Trim}" Command="{Binding ResetTrimCommand}"/>
+                </StackPanel>
+            </Grid>
+
+            <TextBlock DockPanel.Dock="Top" Margin="0,25,0,0" TextWrapping="Wrap" TextAlignment="Center"
+                       Text="{DynamicResource Language_YouTube_Trim_Hint}" Style="{StaticResource SubtleText}"/>
+            <ContentControl/>
+        </DockPanel>
+
+        <!-- ===== Right: metadata and destination ===== -->
+        <Grid Grid.Column="2">
+            <ScrollViewer Panel.ZIndex="0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"
+                          IsEnabled="{Binding IsSaving, Converter={StaticResource InvertingBooleanConverter}}">
+                <StackPanel Margin="0,0,10,10">
+                    <TextBlock Style="{StaticResource FieldLabel}" Margin="0,0,0,4">
+                        <Run Text="{DynamicResource Language_Title}"/><Run Text=" *" Foreground="{DynamicResource Brush_Accent}"/>
+                    </TextBlock>
+                    <TextBox Style="{StaticResource FieldTextBox}" Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}"/>
+
+                    <TextBlock Text="{DynamicResource Language_Artists}" Style="{StaticResource FieldLabel}"/>
+                    <TextBox Style="{StaticResource FieldTextBox}" Text="{Binding Artists, UpdateSourceTrigger=PropertyChanged}"/>
+
+                    <TextBlock Text="{DynamicResource Language_Album}" Style="{StaticResource FieldLabel}"/>
+                    <TextBox Style="{StaticResource FieldTextBox}" Text="{Binding Album, UpdateSourceTrigger=PropertyChanged}"/>
+
+                    <TextBlock Text="{DynamicResource Language_Album_Artists}" Style="{StaticResource FieldLabel}"/>
+                    <TextBox Style="{StaticResource FieldTextBox}" Text="{Binding AlbumArtists, UpdateSourceTrigger=PropertyChanged}"/>
+
+                    <TextBlock Text="{DynamicResource Language_Genres}" Style="{StaticResource FieldLabel}"/>
+                    <TextBox Style="{StaticResource FieldTextBox}" Text="{Binding Genres, UpdateSourceTrigger=PropertyChanged}"/>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="15"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="{DynamicResource Language_Year}" Style="{StaticResource FieldLabel}"/>
+                            <TextBox Style="{StaticResource FieldTextBox}" Text="{Binding Year, UpdateSourceTrigger=PropertyChanged}"/>
+                        </StackPanel>
+                        <StackPanel Grid.Column="2">
+                            <TextBlock Text="{DynamicResource Language_Track_Number}" Style="{StaticResource FieldLabel}"/>
+                            <TextBox Style="{StaticResource FieldTextBox}" Text="{Binding TrackNumber, UpdateSourceTrigger=PropertyChanged}"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <TextBlock Text="{DynamicResource Language_Comment}" Style="{StaticResource FieldLabel}"/>
+                    <TextBox Style="{StaticResource FieldTextBox}" Text="{Binding Comment, UpdateSourceTrigger=PropertyChanged}"/>
+
+                    <CheckBox Margin="0,15,0,0" Style="{StaticResource MetroCheckBox}" IsChecked="{Binding UseThumbnailAsCover}"
+                              Content="{DynamicResource Language_YouTube_Use_Thumbnail_As_Cover}"/>
+
+                    <!-- Destination -->
+                    <TextBlock Text="{DynamicResource Language_YouTube_Save_To_Folder}" Style="{StaticResource FieldLabel}" Margin="0,20,0,4"/>
+                    <ComboBox Style="{StaticResource MetroComboBox}" Padding="4,0" VerticalContentAlignment="Center"
+                              ItemsSource="{Binding Folders}" SelectedItem="{Binding SelectedFolder}" DisplayMemberPath="Path"
+                              Visibility="{Binding HasNoFolders, Converter={StaticResource InvertingBooleanToCollapsedConverter}}"/>
+                    <TextBlock Text="{DynamicResource Language_YouTube_No_Collection_Folders}" TextWrapping="Wrap" Style="{StaticResource SubtleText}"
+                               Visibility="{Binding HasNoFolders, Converter={StaticResource BooleanToCollapsedConverter}}"/>
+
+                    <!-- File name: follows the title (spaces removed) until edited -->
+                    <TextBlock Text="{DynamicResource Language_YouTube_File_Name}" Style="{StaticResource FieldLabel}"/>
+                    <DockPanel>
+                        <Button DockPanel.Dock="Right" Width="24" Height="24" Margin="6,0,0,0" Style="{StaticResource TransparentButton}"
+                                HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                                Command="{Binding ResetFileNameCommand}"
+                                Visibility="{Binding IsFileNameOverridden, Converter={StaticResource BooleanToCollapsedConverter}}">
+                            <Button.ToolTip>
+                                <TextBlock Text="{DynamicResource Language_YouTube_Reset_File_Name}"/>
+                            </Button.ToolTip>
+                            <dc:SegoeIcon Text="&#xE72C;" FontSize="13" Foreground="{DynamicResource Brush_PrimaryText}"/>
+                        </Button>
+                        <TextBlock DockPanel.Dock="Right" Text=".mp3" Margin="4,0,0,0" VerticalAlignment="Center" Style="{StaticResource SubtleText}"/>
+                        <TextBox Style="{StaticResource FieldTextBox}" Text="{Binding FileBaseName, UpdateSourceTrigger=PropertyChanged}"/>
+                    </DockPanel>
+                    <TextBlock Margin="0,4,0,0" TextWrapping="Wrap" Style="{StaticResource SubtleText}">
+                        <Run Text="{DynamicResource Language_YouTube_Saved_As}"/><Run Text=" "/><Run Text="{Binding FinalFileName, Mode=OneWay}"/>
+                    </TextBlock>
+                </StackPanel>
+            </ScrollViewer>
+
+            <!-- Saving -->
+            <Border Panel.ZIndex="1" Background="{DynamicResource Brush_MainWindowBackground}" Opacity="0.85"
+                    Visibility="{Binding IsSaving, Converter={StaticResource BooleanToCollapsedConverter}}">
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Viewbox Width="40" Height="40">
+                        <dc:ProgressRing Foreground="{DynamicResource Brush_Accent}" IsActive="{Binding IsSaving}"/>
+                    </Viewbox>
+                    <TextBlock Margin="0,12,0,0" Text="{DynamicResource Language_YouTube_Saving}" HorizontalAlignment="Center" Foreground="{DynamicResource Brush_PrimaryText}"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+
+        <!-- Validation / save errors, shown just above the dialog's Save button -->
+        <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" HorizontalAlignment="Right" Margin="0,10,0,0"
+                   MaxWidth="600" TextWrapping="Wrap" TextAlignment="Right" FontSize="13" Foreground="#E81123"
+                   Text="{Binding ErrorMessage}"
+                   Visibility="{Binding HasError, Converter={StaticResource BooleanToCollapsedConverter}}"/>
+    </Grid>
+</UserControl>

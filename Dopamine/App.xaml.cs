@@ -39,6 +39,7 @@ using Dopamine.Services.Taskbar;
 using Dopamine.Services.Update;
 using Dopamine.Services.Win32Input;
 using Dopamine.Services.WindowsIntegration;
+using Dopamine.Services.YouTube;
 using Dopamine.Utils;
 using Dopamine.Views;
 using Dopamine.Views.Common;
@@ -258,6 +259,21 @@ namespace Dopamine
                 containerRegistry.RegisterSingleton<IRichPresenceService, RichPresenceService>();
                 containerRegistry.RegisterSingleton<IBlacklistService, BlacklistService>();
 
+                // YouTube download
+                containerRegistry.RegisterSingleton<IExternalToolLocator, ExternalToolLocator>();
+                containerRegistry.RegisterSingleton<IProcessRunner, ProcessRunner>();
+                containerRegistry.RegisterSingleton<IYtDlpClient, YtDlpClient>();
+                containerRegistry.RegisterSingleton<IYouTubeAudioCache, YouTubeAudioCache>();
+                containerRegistry.RegisterSingleton<IYouTubeSearchService, YtDlpSearchService>();
+                containerRegistry.RegisterSingleton<IYouTubeAudioService, YtDlpAudioService>();
+                containerRegistry.RegisterSingleton<IAudioTrimService, FfmpegAudioTrimService>();
+                containerRegistry.RegisterSingleton<IAudioPreviewPlayer, MediaPlayerAudioPreviewPlayer>();
+                containerRegistry.RegisterSingleton<ITrackTagWriter, FileMetadataTrackTagWriter>();
+                containerRegistry.RegisterSingleton<IYouTubeArtworkProvider, YouTubeThumbnailArtworkProvider>();
+                containerRegistry.RegisterSingleton<ISongInfoParser, SongInfoParser>();
+                containerRegistry.RegisterSingleton<IYouTubeImportService, YouTubeImportService>();
+                containerRegistry.RegisterSingleton<IYouTubeTrimDialogService, YouTubeTrimDialogService>();
+
                 INotificationService notificationService;
 
                 // NotificationService contains code that is only supported on Windows 10
@@ -330,6 +346,7 @@ namespace Dopamine
                 containerRegistry.Register<object, CollectionFolders>(typeof(CollectionFolders).FullName);
                 containerRegistry.Register<object, CollectionGenres>(typeof(CollectionGenres).FullName);
                 containerRegistry.Register<object, CollectionTracks>(typeof(CollectionTracks).FullName);
+                containerRegistry.Register<object, CollectionDownload>(typeof(CollectionDownload).FullName);
 
                 // Settings
                 containerRegistry.Register<object, SettingsMenu>(typeof(SettingsMenu).FullName);
@@ -356,6 +373,8 @@ namespace Dopamine
 
             void RegisterViewModels()
             {
+                // Singleton so search results and running downloads survive switching collection tabs
+                containerRegistry.RegisterSingleton<ViewModels.FullPlayer.Collection.CollectionDownloadViewModel, ViewModels.FullPlayer.Collection.CollectionDownloadViewModel>();
             }
         }
 

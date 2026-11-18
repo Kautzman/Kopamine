@@ -248,6 +248,34 @@
     <Compile Include="Win32Input\Win32InputService.cs" />
     <Compile Include="WindowsIntegration\IWindowsIntegrationService.cs" />
     <Compile Include="WindowsIntegration\WindowsIntegrationService.cs" />
+    <Compile Include="YouTube\ExternalTool.cs" />
+    <Compile Include="YouTube\ExternalToolLocator.cs" />
+    <Compile Include="YouTube\FfmpegAudioTrimService.cs" />
+    <Compile Include="YouTube\FileMetadataTrackTagWriter.cs" />
+    <Compile Include="YouTube\IAudioPreviewPlayer.cs" />
+    <Compile Include="YouTube\IAudioTrimService.cs" />
+    <Compile Include="YouTube\IExternalToolLocator.cs" />
+    <Compile Include="YouTube\IProcessRunner.cs" />
+    <Compile Include="YouTube\ISongInfoParser.cs" />
+    <Compile Include="YouTube\ITrackTagWriter.cs" />
+    <Compile Include="YouTube\IYouTubeArtworkProvider.cs" />
+    <Compile Include="YouTube\IYouTubeAudioCache.cs" />
+    <Compile Include="YouTube\IYouTubeAudioService.cs" />
+    <Compile Include="YouTube\IYouTubeImportService.cs" />
+    <Compile Include="YouTube\IYouTubeSearchService.cs" />
+    <Compile Include="YouTube\IYtDlpClient.cs" />
+    <Compile Include="YouTube\MediaPlayerAudioPreviewPlayer.cs" />
+    <Compile Include="YouTube\ProcessRunner.cs" />
+    <Compile Include="YouTube\SongInfoParser.cs" />
+    <Compile Include="YouTube\TimeCode.cs" />
+    <Compile Include="YouTube\TrackFileNames.cs" />
+    <Compile Include="YouTube\YouTubeAudioCache.cs" />
+    <Compile Include="YouTube\YouTubeImportService.cs" />
+    <Compile Include="YouTube\YouTubeThumbnailArtworkProvider.cs" />
+    <Compile Include="YouTube\YouTubeVideo.cs" />
+    <Compile Include="YouTube\YtDlpAudioService.cs" />
+    <Compile Include="YouTube\YtDlpClient.cs" />
+    <Compile Include="YouTube\YtDlpSearchService.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
