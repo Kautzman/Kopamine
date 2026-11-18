@@ -14,6 +14,11 @@
     <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="5" Padding="15" PanningMode="Both">
         <StackPanel>
             <Label Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_About}" />
+            <Grid Margin="0, 10, 0, 0">
+                <Image Source="/Icons/Kopamine.png" Height="64" Width="64" HorizontalAlignment="Left"/>
+                <Label Content="Kopamine" FontSize="38" Foreground="{DynamicResource Brush_PrimaryText}" Margin="80, 0, 0, 0" FontFamily="Calibri Light"/>
+                <TextBlock Text="Version: 1.0.0" Foreground="{DynamicResource Brush_PrimaryText}" Margin="87, 45, 0, 5"/>
+            </Grid>
             <controls:FullLogo x:Name="AppName" VerticalAlignment="Center" Margin="0,10,0,5" 
                                Foreground="{DynamicResource Brush_PrimaryText}" Accent="{DynamicResource Brush_Accent}"/>
             <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
