@@ -250,3 +250,6 @@ paket-files/
 # JetBrains Rider
 .idea/
 *.sln.iml
+Dopamine/Tools/ffmpeg.exe
+Dopamine/Tools/yt-dlp.exe
+Dopamine/Tools/deno.exe

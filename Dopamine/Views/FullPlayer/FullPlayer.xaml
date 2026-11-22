@@ -48,15 +48,13 @@
                 <!-- Logo/Back button -->
                 <Grid DockPanel.Dock="Left" MouseEnter="Grid_MouseEnter" MouseLeave="Grid_MouseLeave"
                       VerticalAlignment="Top" Width="50" Height="50" Background="#00000000">
-                    <!-- Droplet -->
-                    <Viewbox Width="30" Height="30" Panel.ZIndex="0">
-                        <Path x:Name="Droplet" Data="{StaticResource Droplet}" Fill="{DynamicResource Brush_Accent}"/>
-                    </Viewbox>
-                    <!-- Headphone -->
-                    <Viewbox x:Name="HeadPhoneIcon" Panel.ZIndex="1" Width="20" Height="20" Opacity="1"
-                             Visibility="{Binding ShowBackButton, Converter={StaticResource InvertingBooleanToCollapsedConverter}}">
-                        <Path x:Name="HeadPhone" Data="{StaticResource HeadPhone}" Fill="{DynamicResource Brush_WindowIcon}" 
-                                          HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <!-- Kopamine icon: tile + dragon share the 256x256 source space, so they line up exactly -->
+                    <Viewbox Width="38" Height="38" Panel.ZIndex="0">
+                        <Grid Width="256" Height="256">
+                            <Path x:Name="IconBackground" Data="{StaticResource KopamineBackground}" Fill="{DynamicResource Brush_Accent}"/>
+                            <Path x:Name="Kopamine" Data="{StaticResource Kopamine}" Fill="{DynamicResource Brush_WindowIcon}"
+                                  Visibility="{Binding ShowBackButton, Converter={StaticResource InvertingBooleanToCollapsedConverter}}"/>
+                        </Grid>
                     </Viewbox>
                     <!-- Back button -->
                     <Button x:Name="BackButton" Panel.ZIndex="1" 

@@ -9,11 +9,12 @@
 
     <StackPanel Orientation="Horizontal">
         <Grid>
-            <Viewbox Width="48" Height="48" Panel.ZIndex="0">
-                <Path x:Name="Droplet" Data="{StaticResource Droplet}" Fill="{Binding Accent, ElementName=This}"/>
-            </Viewbox>
-            <Viewbox Width="32" Height="32" Panel.ZIndex="1">
-                <Path x:Name="HeadPhone" Data="{StaticResource HeadPhone}" Fill="White"/>
+            <!-- Kopamine icon: tile + dragon share the 256x256 source space, so they line up exactly -->
+            <Viewbox Width="48" Height="48">
+                <Grid Width="256" Height="256">
+                    <Path x:Name="IconBackground" Data="{StaticResource KopamineBackground}" Fill="{Binding Accent, ElementName=This}"/>
+                    <Path x:Name="Kopamine" Data="{StaticResource Kopamine}" Fill="White"/>
+                </Grid>
             </Viewbox>
         </Grid>
         <Label Margin="15,0,0,0" Padding="0" Foreground="{Binding Foreground,ElementName=This}" 
